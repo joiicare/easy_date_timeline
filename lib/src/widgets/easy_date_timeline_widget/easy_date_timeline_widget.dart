@@ -20,6 +20,7 @@ class EasyDateTimeLine extends StatefulWidget {
     this.onDateChange,
     this.itemBuilder,
     this.activeColor,
+    this.firstDateMonth,
     this.locale = "en_US",
   });
 
@@ -48,6 +49,9 @@ class EasyDateTimeLine extends StatefulWidget {
   /// Called when the selected date in the timeline changes.
   /// This function takes a `DateTime` object as its parameter, which represents the new selected date.
   final OnDateChangeCallBack? onDateChange;
+
+  /// This is for first date of month
+  final DateTime? firstDateMonth;
 
   /// > **NOTE:**
   /// > When utilizing the `itemBuilder`, it is essential to provide the width of each day for the date timeline widget.
@@ -130,22 +134,13 @@ class _EasyDateTimeLineState extends State<EasyDateTimeLine> {
         children: [
           if (_headerProps.showHeader)
             Padding(
-              padding: _headerProps.padding ??
-                  const EdgeInsets.only(
-                    left: EasyConstants.timelinePadding * 2,
-                    right: EasyConstants.timelinePadding,
-                    bottom: EasyConstants.timelinePadding,
-                  ),
+              padding: EdgeInsets.zero,
               child: Row(
                 mainAxisAlignment: _headerProps.centerHeader == true
                     ? MainAxisAlignment.center
                     : MainAxisAlignment.spaceBetween,
                 children: [
-                  SelectedDateWidget(
-                    date: focusedDate ?? initialDate,
-                    locale: widget.locale,
-                    headerProps: _headerProps,
-                  ),
+                  Spacer(),
                   if (_showMonthPicker(pickerType: MonthPickerType.dropDown))
                     child!,
                   if (_showMonthPicker(pickerType: MonthPickerType.switcher))
@@ -154,10 +149,16 @@ class _EasyDateTimeLineState extends State<EasyDateTimeLine> {
                       value: _easyMonth,
                       onMonthChange: _onMonthChange,
                       style: _headerProps.monthStyle,
+                      firstDateMonth: widget.firstDateMonth,
                     ),
                 ],
               ),
             ),
+          Divider(
+            height: 5,
+            thickness: 1,
+            color: Color(0xFF666666),
+          ),
           TimeLineWidget(
             initialDate: initialDate.copyWith(
               month: _easyMonth.vale,

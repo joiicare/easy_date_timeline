@@ -82,7 +82,7 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
     super.initState();
 
     _controller = ScrollController(
-      initialScrollOffset: _calculateDateOffset(widget.initialDate),
+      initialScrollOffset: _calculateDateOffset(widget.initialDate.subtract(Duration(days: 2))),
     );
   }
 
@@ -200,7 +200,7 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
   }
 
   void _onDayChanged(bool isSelected, DateTime currentDate) {
-    // A date is selected
+    _controller.jumpTo(_calculateDateOffset(currentDate.subtract(Duration(days: 2))));
     widget.onDateChange?.call(currentDate);
   }
 }

@@ -10,6 +10,7 @@ class EasyMonthSwitcher extends StatefulWidget {
     required this.locale,
     required this.value,
     this.onMonthChange,
+    this.firstDateMonth,
     this.style,
   });
 
@@ -25,6 +26,8 @@ class EasyMonthSwitcher extends StatefulWidget {
   /// The text style applied to the month string.
   final TextStyle? style;
 
+  final DateTime? firstDateMonth;
+
   @override
   State<EasyMonthSwitcher> createState() => _EasyMonthSwitcherState();
 }
@@ -32,6 +35,7 @@ class EasyMonthSwitcher extends StatefulWidget {
 class _EasyMonthSwitcherState extends State<EasyMonthSwitcher> {
   List<EasyMonth> _yearMonths = [];
   int _currentMonth = 0;
+  bool isNextMonth = false;
   @override
   void initState() {
     super.initState();
@@ -51,7 +55,7 @@ class _EasyMonthSwitcherState extends State<EasyMonthSwitcher> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Flexible(
-            child: IconButton(
+            child: widget.firstDateMonth!.month !=  _yearMonths[_currentMonth].vale ? IconButton(
               onPressed: () {
                 if (_isFirstMonth) {
                   return;
@@ -61,9 +65,9 @@ class _EasyMonthSwitcherState extends State<EasyMonthSwitcher> {
               },
               icon: Icon(
                 Icons.arrow_back_ios_rounded,
-                color: _isFirstMonth ? Colors.grey : null,
+                color: Colors.grey,
               ),
-            ),
+            ) : SizedBox(),
           ),
           Expanded(
             child: FittedBox(
@@ -76,8 +80,10 @@ class _EasyMonthSwitcherState extends State<EasyMonthSwitcher> {
             ),
           ),
           Flexible(
-            child: IconButton(
+            child: DateTime.now().month !=  _yearMonths[_currentMonth].vale ? IconButton(
               onPressed: () {
+                print("DateTime.now().month: ${DateTime.now().month}");
+                print("_currentMonth : ${_currentMonth}");
                 if (_isLastMonth) {
                   return;
                 }
@@ -86,9 +92,9 @@ class _EasyMonthSwitcherState extends State<EasyMonthSwitcher> {
               },
               icon: Icon(
                 Icons.arrow_forward_ios_rounded,
-                color: _isLastMonth ? Colors.grey : null,
+                color: Colors.grey,
               ),
-            ),
+            ) : SizedBox(),
           ),
         ],
       ),
