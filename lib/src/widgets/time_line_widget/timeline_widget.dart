@@ -200,7 +200,6 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
   }
 
   void _onDayChanged(bool isSelected, DateTime currentDate) {
-    _controller.jumpTo(_calculateDateOffset(currentDate.subtract(Duration(days: 2))));
     widget.onDateChange?.call(currentDate);
   }
 }
