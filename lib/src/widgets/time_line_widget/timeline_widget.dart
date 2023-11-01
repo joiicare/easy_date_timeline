@@ -80,9 +80,8 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
   @override
   void initState() {
     super.initState();
-
     _controller = ScrollController(
-      initialScrollOffset: _calculateDateOffset(widget.initialDate.subtract(Duration(days: 2))),
+      initialScrollOffset: _calculateDateOffset(widget.initialDate.subtract(Duration(days: widget.initialDate.day == 1 || widget.initialDate.day == 2 ? 0 : 2))),
     );
   }
 
