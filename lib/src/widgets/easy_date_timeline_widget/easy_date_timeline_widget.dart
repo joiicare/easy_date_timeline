@@ -140,7 +140,6 @@ class _EasyDateTimeLineState extends State<EasyDateTimeLine> {
                     ? MainAxisAlignment.center
                     : MainAxisAlignment.spaceBetween,
                 children: [
-                  Spacer(),
                   if (_showMonthPicker(pickerType: MonthPickerType.dropDown))
                     child!,
                   if (_showMonthPicker(pickerType: MonthPickerType.switcher))
