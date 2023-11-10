@@ -49,49 +49,47 @@ class _EasyMonthSwitcherState extends State<EasyMonthSwitcher> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.sizeOf(context).width;
-    return SizedBox(
-      width: screenWidth * 0.46,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          widget.firstDateMonth!.month !=  _yearMonths[_currentMonth].vale ? IconButton(
-            onPressed: () {
-              if (_isFirstMonth) {
-                return;
-              }
-              _currentMonth--;
-              widget.onMonthChange?.call(_yearMonths[_currentMonth]);
-            },
-            icon: Icon(
-              Icons.arrow_back_ios_rounded,
-              color: Colors.grey,
-              size: 16,
-            ),
-          ) : SizedBox(),
-          Text(
-            _yearMonths[_currentMonth].name,
-            textAlign: TextAlign.center,
-            style: widget.style,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        widget.firstDateMonth!.month != _yearMonths[_currentMonth].vale ?  InkWell(
+          onTap: () {
+                if (_isFirstMonth) {
+                  return;
+                }
+                _currentMonth--;
+                widget.onMonthChange?.call(_yearMonths[_currentMonth]);
+          },
+          child: Icon(
+            Icons.arrow_back_ios_rounded,
+            color: Colors.grey,
+            size: 16,
           ),
-          DateTime.now().month !=  _yearMonths[_currentMonth].vale ? IconButton(
-            onPressed: () {
-              print("DateTime.now().month: ${DateTime.now().month}");
-              print("_currentMonth : ${_currentMonth}");
-              if (_isLastMonth) {
-                return;
-              }
-              _currentMonth++;
-              widget.onMonthChange?.call(_yearMonths[_currentMonth]);
-            },
-            icon: Icon(
-              Icons.arrow_forward_ios_rounded,
-              size: 16,
-              color: Colors.grey,
-            ),
-          ) : SizedBox(),
-        ],
-      ),
+        ) : SizedBox(),
+        SizedBox(width: 3,),
+        Text(
+          _yearMonths[_currentMonth].name,
+          textAlign: TextAlign.center,
+          style: widget.style,
+        ),
+        SizedBox(width: 3,),
+        DateTime.now().month != _yearMonths[_currentMonth].vale ?
+        InkWell(
+          onTap: () {
+                 if (_isLastMonth) {
+                   return;
+                 }
+                 _currentMonth++;
+                 widget.onMonthChange?.call(_yearMonths[_currentMonth]);
+          },
+          child: Icon(
+            Icons.arrow_forward_ios_rounded,
+            size: 16,
+            color: Colors.grey,
+          ),
+        ) : SizedBox(),
+      ],
     );
   }
 }

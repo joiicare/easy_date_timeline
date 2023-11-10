@@ -153,6 +153,7 @@ class _EasyDateTimeLineState extends State<EasyDateTimeLine> {
                 ],
               ),
             ),
+          SizedBox(height: 5,),
           Divider(
             height: 5,
             thickness: 1,
