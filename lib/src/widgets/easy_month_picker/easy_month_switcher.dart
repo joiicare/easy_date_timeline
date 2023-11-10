@@ -50,9 +50,9 @@ class _EasyMonthSwitcherState extends State<EasyMonthSwitcher> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.sizeOf(context).width;
     return SizedBox(
-      width: screenWidth * 0.3,
+      width: screenWidth * 0.6,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Flexible(
             child: widget.firstDateMonth!.month !=  _yearMonths[_currentMonth].vale ? IconButton(
@@ -70,13 +70,10 @@ class _EasyMonthSwitcherState extends State<EasyMonthSwitcher> {
             ) : SizedBox(),
           ),
           Expanded(
-            child: FittedBox(
-              fit: BoxFit.scaleDown,
-              child: Text(
-                _yearMonths[_currentMonth].name,
-                textAlign: TextAlign.center,
-                style: widget.style,
-              ),
+            child: Text(
+              _yearMonths[_currentMonth].name,
+              textAlign: TextAlign.center,
+              style: widget.style,
             ),
           ),
           Flexible(
