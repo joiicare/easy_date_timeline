@@ -63,7 +63,7 @@ class _EasyMonthSwitcherState extends State<EasyMonthSwitcher> {
           },
           child: Icon(
             Icons.arrow_back_ios_rounded,
-            color: Colors.grey,
+            color: Color(0x33651C32),
             size: 16,
           ),
         ) : SizedBox(),
@@ -86,7 +86,7 @@ class _EasyMonthSwitcherState extends State<EasyMonthSwitcher> {
           child: Icon(
             Icons.arrow_forward_ios_rounded,
             size: 16,
-            color: Colors.grey,
+            color: Color(0x33651C32),
           ),
         ) : SizedBox(),
       ],
