@@ -56,10 +56,12 @@ class _EasyMonthSwitcherState extends State<EasyMonthSwitcher> {
         widget.firstDateMonth!.month != _yearMonths[_currentMonth].vale ?  InkWell(
           onTap: () {
                 if (_isFirstMonth) {
-                  return;
+                  _currentMonth = _yearMonths.length - 1;
+                  widget.onMonthChange?.call(_yearMonths[_currentMonth]);
+                } else {
+                  _currentMonth--;
+                  widget.onMonthChange?.call(_yearMonths[_currentMonth]);
                 }
-                _currentMonth--;
-                widget.onMonthChange?.call(_yearMonths[_currentMonth]);
           },
           child: Icon(
             Icons.arrow_back_ios_rounded,
@@ -78,10 +80,12 @@ class _EasyMonthSwitcherState extends State<EasyMonthSwitcher> {
         InkWell(
           onTap: () {
                  if (_isLastMonth) {
-                   return;
+                   _currentMonth = 0;
+                   widget.onMonthChange?.call(_yearMonths[_currentMonth]);
+                 } else {
+                   _currentMonth++;
+                   widget.onMonthChange?.call(_yearMonths[_currentMonth]);
                  }
-                 _currentMonth++;
-                 widget.onMonthChange?.call(_yearMonths[_currentMonth]);
           },
           child: Icon(
             Icons.arrow_forward_ios_rounded,
