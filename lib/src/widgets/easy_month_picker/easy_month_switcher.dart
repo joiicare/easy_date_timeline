@@ -36,6 +36,8 @@ class _EasyMonthSwitcherState extends State<EasyMonthSwitcher> {
   List<EasyMonth> _yearMonths = [];
   int _currentMonth = 0;
   bool isNextMonth = false;
+   int _currentYear = DateTime.now().year;
+
   @override
   void initState() {
     super.initState();
@@ -56,7 +58,10 @@ class _EasyMonthSwitcherState extends State<EasyMonthSwitcher> {
         widget.firstDateMonth!.month != _yearMonths[_currentMonth].vale ?  InkWell(
           onTap: () {
                 if (_isFirstMonth) {
-                  _currentMonth = _yearMonths.length - 1;
+                  _currentYear = _currentYear - 1;
+                  _currentMonth = 12;
+                  _yearMonths = EasyDateUtils.getYearMonths(DateTime(_currentYear), widget.locale);
+                  _currentMonth--;
                   widget.onMonthChange?.call(_yearMonths[_currentMonth]);
                 } else {
                   _currentMonth--;
@@ -76,16 +81,27 @@ class _EasyMonthSwitcherState extends State<EasyMonthSwitcher> {
           style: widget.style,
         ),
         SizedBox(width: 3,),
+        Text(
+          _currentYear.toString(),
+          textAlign: TextAlign.center,
+          style: widget.style,
+        ),
+        SizedBox(width: 3,),
         DateTime.now().month != _yearMonths[_currentMonth].vale ?
         InkWell(
           onTap: () {
-                 if (_isLastMonth) {
-                   _currentMonth = 0;
-                   widget.onMonthChange?.call(_yearMonths[_currentMonth]);
-                 } else {
-                   _currentMonth++;
-                   widget.onMonthChange?.call(_yearMonths[_currentMonth]);
-                 }
+            if(_currentYear != DateTime.now().year && _currentYear <= DateTime.now().year){
+              if (_isLastMonth) {
+                _currentYear = _currentYear + 1;
+                _currentMonth = -1;
+                _yearMonths = EasyDateUtils.getYearMonths(DateTime(_currentYear), widget.locale);
+                _currentMonth++;
+                widget.onMonthChange?.call(_yearMonths[_currentMonth]);
+              } else {
+                _currentMonth++;
+                widget.onMonthChange?.call(_yearMonths[_currentMonth]);
+              }
+            }
           },
           child: Icon(
             Icons.arrow_forward_ios_rounded,
