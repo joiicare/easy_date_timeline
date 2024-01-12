@@ -1,3 +1,4 @@
+import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/models.dart';
@@ -50,7 +51,6 @@ class _EasyMonthSwitcherState extends State<EasyMonthSwitcher> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.sizeOf(context).width;
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -60,6 +60,7 @@ class _EasyMonthSwitcherState extends State<EasyMonthSwitcher> {
                 if (_isFirstMonth) {
                   _currentYear = _currentYear - 1;
                   _currentMonth = 12;
+                  finalYear = _currentYear;
                   _yearMonths = EasyDateUtils.getYearMonths(DateTime(_currentYear), widget.locale);
                   _currentMonth--;
                   widget.onMonthChange?.call(_yearMonths[_currentMonth]);
@@ -94,6 +95,7 @@ class _EasyMonthSwitcherState extends State<EasyMonthSwitcher> {
               if (_isLastMonth) {
                 _currentYear = _currentYear + 1;
                 _currentMonth = -1;
+                finalYear = _currentYear;
                 _yearMonths = EasyDateUtils.getYearMonths(DateTime(_currentYear), widget.locale);
                 _currentMonth++;
                 widget.onMonthChange?.call(_yearMonths[_currentMonth]);

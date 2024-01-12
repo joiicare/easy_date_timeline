@@ -1,3 +1,4 @@
+import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 
 import '../../properties/easy_day_props.dart';
@@ -135,7 +136,7 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
             vertical: _timeLineProps.vPadding,
           ),
           itemBuilder: (context, index) {
-            final currentDate = DateTime(initialDate.year, initialDate.month, index + 1);
+            final currentDate = DateTime(finalYear, initialDate.month, index + 1);
             final isSelected = widget.focusedDate != null
                 ? EasyDateUtils.isSameDay(widget.focusedDate!, currentDate)
                 : EasyDateUtils.isSameDay(widget.initialDate, currentDate);

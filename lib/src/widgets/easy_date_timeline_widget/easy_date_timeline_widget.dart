@@ -7,6 +7,8 @@ import '../../utils/utils.dart';
 import '../easy_month_picker/easy_month_picker.dart';
 import '../time_line_widget/timeline_widget.dart';
 import 'selected_date_widget.dart';
+int finalYear = DateTime.now().year;
+
 
 /// Represents a timeline widget for displaying dates in a horizontal line.
 class EasyDateTimeLine extends StatefulWidget {
@@ -87,6 +89,7 @@ class _EasyDateTimeLineState extends State<EasyDateTimeLine> {
     initializeDateFormatting(widget.locale, null);
     super.initState();
     // Get initial month
+    finalYear = widget.initialDate.year;
     _easyMonth =
         EasyDateUtils.convertDateToEasyMonth(widget.initialDate, widget.locale);
     _initialDay = widget.initialDate.day;
@@ -94,8 +97,8 @@ class _EasyDateTimeLineState extends State<EasyDateTimeLine> {
   }
 
   void _onFocusedDateChanged(DateTime date) {
-    _focusedDateListener.value = date;
-    widget.onDateChange?.call(date);
+    _focusedDateListener.value = DateTime(finalYear, date.month, date.day);
+    widget.onDateChange?.call(DateTime(finalYear, date.month, date.day));
   }
 
   @override
