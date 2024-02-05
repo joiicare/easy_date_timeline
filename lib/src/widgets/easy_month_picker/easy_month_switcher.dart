@@ -13,6 +13,7 @@ class EasyMonthSwitcher extends StatefulWidget {
     this.onMonthChange,
     this.firstDateMonth,
     this.style,
+    required this.isShowMonth,
   });
 
   /// A `String` that represents the locale code to use for formatting the month name in the switcher.
@@ -28,6 +29,8 @@ class EasyMonthSwitcher extends StatefulWidget {
   final TextStyle? style;
 
   final DateTime? firstDateMonth;
+
+  final bool isShowMonth;
 
   @override
   State<EasyMonthSwitcher> createState() => _EasyMonthSwitcherState();
@@ -55,7 +58,7 @@ class _EasyMonthSwitcherState extends State<EasyMonthSwitcher> {
       mainAxisAlignment: MainAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        widget.firstDateMonth!.month != _yearMonths[_currentMonth].vale ?  InkWell(
+        widget.firstDateMonth!.month != _yearMonths[_currentMonth].vale || widget.isShowMonth ? InkWell(
           onTap: () {
                 if (_isFirstMonth) {
                   _currentYear = _currentYear - 1;
@@ -88,7 +91,7 @@ class _EasyMonthSwitcherState extends State<EasyMonthSwitcher> {
           style: widget.style,
         ),
         SizedBox(width: 3,),
-        DateTime.now().month != _yearMonths[_currentMonth].vale ?
+        DateTime.now().month != _yearMonths[_currentMonth].vale || widget.isShowMonth ?
         InkWell(
           onTap: () {
             if(_currentYear != DateTime.now().year && _currentYear <= DateTime.now().year){
