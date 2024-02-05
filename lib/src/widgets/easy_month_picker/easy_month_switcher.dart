@@ -94,7 +94,6 @@ class _EasyMonthSwitcherState extends State<EasyMonthSwitcher> {
         DateTime.now().month != _yearMonths[_currentMonth].vale || widget.isShowMonth ?
         InkWell(
           onTap: () {
-            if(_currentYear != DateTime.now().year && _currentYear <= DateTime.now().year){
               if (_isLastMonth) {
                 _currentYear = _currentYear + 1;
                 _currentMonth = -1;
@@ -106,7 +105,6 @@ class _EasyMonthSwitcherState extends State<EasyMonthSwitcher> {
                 _currentMonth++;
                 widget.onMonthChange?.call(_yearMonths[_currentMonth]);
               }
-            }
           },
           child: Icon(
             Icons.arrow_forward_ios_rounded,
