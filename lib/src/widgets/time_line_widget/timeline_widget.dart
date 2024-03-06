@@ -105,6 +105,11 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
   void initState() {
     super.initState();
     if(widget.rangeStartDate != null){
+      rangeDateModel.map((element) {
+        if(startDate == element.showDates) {
+          element.isSelected = false;
+        }
+      }).toList();
       startDate = widget.rangeStartDate;
     }
     if(widget.rangeEndDate != null){
