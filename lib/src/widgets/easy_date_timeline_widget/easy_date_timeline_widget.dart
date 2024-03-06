@@ -25,6 +25,7 @@ class EasyDateTimeLine extends StatefulWidget {
     this.firstDateMonth,
     this.locale = "en_US",
     required this.isShowMonth,
+    required this.isDateRangePicker,
   });
 
   /// Represents the initial date for the timeline widget.
@@ -58,6 +59,8 @@ class EasyDateTimeLine extends StatefulWidget {
 
 
   final bool isShowMonth;
+
+  final bool isDateRangePicker;
 
   /// > **NOTE:**
   /// > When utilizing the `itemBuilder`, it is essential to provide the width of each day for the date timeline widget.
@@ -172,6 +175,7 @@ class _EasyDateTimeLineState extends State<EasyDateTimeLine> {
               month: _easyMonth.vale,
               day: _initialDay,
             ),
+            isDateRangePicker: widget.isDateRangePicker,
             inactiveDates: widget.disabledDates,
             focusedDate: focusedDate,
             onDateChange: _onFocusedDateChanged,

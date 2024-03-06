@@ -1,10 +1,12 @@
+import 'dart:developer';
+
 import 'package:easy_date_timeline/easy_date_timeline.dart';
+import 'package:easy_date_timeline/src/models/date_range_model.dart';
 import 'package:flutter/material.dart';
 
-import '../../properties/easy_day_props.dart';
-import '../../properties/time_line_props.dart';
 import '../../utils/utils.dart';
 import '../easy_day_widget/easy_day_widget.dart';
+List<RangeDatePicker> rangeDateModel = [];
 
 /// A widget that displays a timeline of days.
 class TimeLineWidget extends StatefulWidget {
@@ -20,6 +22,7 @@ class TimeLineWidget extends StatefulWidget {
     this.timeLineProps = const EasyTimeLineProps(),
     this.onDateChange,
     this.itemBuilder,
+    this.isDateRangePicker = false,
   })  : assert(timeLineProps.hPadding > -1,
             "Can't set timeline hPadding less than zero."),
         assert(timeLineProps.separatorPadding > -1,
@@ -65,6 +68,8 @@ class TimeLineWidget extends StatefulWidget {
   /// A `String` that represents the locale code to use for formatting the dates in the timeline.
   final String locale;
 
+  final bool isDateRangePicker;
+
   @override
   State<TimeLineWidget> createState() => _TimeLineWidgetState();
 }
@@ -76,14 +81,25 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
   double get _dayWidth => _dayProps.width;
   double get _dayHeight => _dayProps.height;
   double get _dayOffsetConstrains => _isLandscapeMode ? _dayHeight : _dayWidth;
-
+  bool isSelected = false;
+  List<DateTime> showDates = [];
   late ScrollController _controller;
+  DateTime? startDate;
+  DateTime? endDate;
+
   @override
   void initState() {
     super.initState();
+    print("hello world ==> ");
     _controller = ScrollController(
-      initialScrollOffset: _calculateDateOffset(widget.initialDate.subtract(Duration(days: widget.initialDate.day == 1 || widget.initialDate.day == 2 ? 0 : 2))),
+      initialScrollOffset: _calculateDateOffset(widget.initialDate
+          .subtract(Duration(days: widget.initialDate.day == 1 || widget.initialDate.day == 2 ? 0 : 2))),
     );
+    int daysInMonth = DateTime(widget.initialDate.year, widget.initialDate.month + 1, 0).day;
+    for (int day = 1; day <= daysInMonth; day++) {
+      DateTime date = DateTime(widget.initialDate.year, widget.initialDate.month, day);
+      rangeDateModel.add(RangeDatePicker(showDates: date, isSelected: false));
+    }
   }
 
   @override
@@ -121,9 +137,7 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
     return Container(
       height: _isLandscapeMode ? _dayWidth : _dayHeight,
       margin: _timeLineProps.margin,
-      color: _timeLineProps.decoration == null
-          ? _timeLineProps.backgroundColor
-          : null,
+      color: _timeLineProps.decoration == null ? _timeLineProps.backgroundColor : null,
       decoration: _timeLineProps.decoration,
       child: ClipRRect(
         borderRadius:
@@ -137,9 +151,39 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
           ),
           itemBuilder: (context, index) {
             final currentDate = DateTime(finalYear, initialDate.month, index + 1);
-            final isSelected = widget.focusedDate != null
-                ? EasyDateUtils.isSameDay(widget.focusedDate!, currentDate)
-                : EasyDateUtils.isSameDay(widget.initialDate, currentDate);
+            if(widget.isDateRangePicker) {
+              List<DateTime> betweenDate = [];
+              if (startDate != null && endDate != null) {
+                for (DateTime date = startDate!;
+                date.isBefore(endDate!) || date.isAtSameMomentAs(endDate!);
+                date = date.add(const Duration(days: 1))) {
+                  betweenDate.add(date);
+                }
+              } else {
+                betweenDate = [];
+              }
+              if (betweenDate.isNotEmpty) {
+                betweenDate.map((e) {
+                  print("e between date ==> $e");
+                  rangeDateModel.map((element) {
+                    // print("element  ==> ${element.toJson()}");
+                    if (e == element.showDates) {
+                      element.isSelected = true;
+                    }
+                  }).toList();
+                }).toList();
+              } else if (startDate != null) {
+                rangeDateModel.map((element) {
+                  if (startDate == element.showDates) {
+                    element.isSelected = true;
+                  }
+                }).toList();
+              }
+            } else {
+               isSelected = widget.focusedDate != null
+                  ? EasyDateUtils.isSameDay(widget.focusedDate!, currentDate)
+                  : EasyDateUtils.isSameDay(widget.initialDate, currentDate);
+            }
 
             bool isDisabledDay = false;
             // Check if this date should be deactivated only for the DeactivatedDates.
@@ -158,15 +202,15 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
                     currentDate,
                   )
                 : EasyDayWidget(
-                    easyDayProps: _dayProps,
-                    date: currentDate,
-                    locale: widget.locale,
-                    isSelected: isSelected,
-                    isDisabled: isDisabledDay,
-                    onDayPressed: () => _onDayChanged(isSelected, currentDate),
-                    activeTextColor: widget.activeDayTextColor,
-                    activeDayColor: widget.activeDayColor,
-                  );
+              easyDayProps: _dayProps,
+              date: currentDate,
+              locale: widget.locale,
+              isSelected: widget.isDateRangePicker ? rangeDateModel[index].isSelected! : isSelected,
+              isDisabled: isDisabledDay,
+              onDayPressed: () => _onDayChanged(currentDate, widget.isDateRangePicker),
+              activeTextColor: widget.activeDayTextColor,
+              activeDayColor: widget.activeDayColor,
+            );
           },
           separatorBuilder: (context, index) {
             return SizedBox(
@@ -185,7 +229,7 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
     DateTime date,
   ) {
     return InkWell(
-      onTap: () => _onDayChanged(isSelected, date),
+      onTap: () => _onDayChanged(date, widget.isDateRangePicker),
       borderRadius: BorderRadius.circular(_dayProps.activeBorderRadius),
       child: widget.itemBuilder!(
         context,
@@ -198,7 +242,28 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
     );
   }
 
-  void _onDayChanged(bool isSelected, DateTime currentDate) {
+  void _onDayChanged(DateTime currentDate,bool isDateRangePicker) {
     widget.onDateChange?.call(currentDate);
+    if(isDateRangePicker) {
+      if (startDate == null && endDate == null) {
+        startDate = currentDate;
+      } else if (startDate != null && currentDate.isBefore(startDate!)) {
+        startDate = currentDate;
+        endDate = null;
+        rangeDateModel.map((element) {
+          element.isSelected = false;
+        }).toList();
+      } else if (startDate != null && endDate == null && currentDate.isAfter(startDate!)) {
+        endDate = currentDate;
+      } else if (startDate != null && endDate != null) {
+        startDate = currentDate;
+        endDate = null;
+        rangeDateModel.map((element) {
+          element.isSelected = false;
+        }).toList();
+      }
+    } else {
+      isSelected = true;
+    }
   }
 }

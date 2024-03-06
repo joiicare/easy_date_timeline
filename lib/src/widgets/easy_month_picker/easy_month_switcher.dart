@@ -1,4 +1,6 @@
 import 'package:easy_date_timeline/easy_date_timeline.dart';
+import 'package:easy_date_timeline/src/models/date_range_model.dart';
+import 'package:easy_date_timeline/src/widgets/time_line_widget/timeline_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/models.dart';
@@ -71,6 +73,14 @@ class _EasyMonthSwitcherState extends State<EasyMonthSwitcher> {
                   _currentMonth--;
                   widget.onMonthChange?.call(_yearMonths[_currentMonth]);
                 }
+                rangeDateModel = [];
+                int daysInMonth = DateTime(_currentYear, _currentMonth + 2, 0).day;
+                for (int day = 1; day <= daysInMonth; day++) {
+                  DateTime date = DateTime(_currentYear, _currentMonth + 1, day);
+                  rangeDateModel.add(RangeDatePicker(showDates: date, isSelected: false));
+                }
+                setState(() {});
+
           },
           child: Icon(
             Icons.arrow_back_ios_rounded,
@@ -105,6 +115,13 @@ class _EasyMonthSwitcherState extends State<EasyMonthSwitcher> {
                 _currentMonth++;
                 widget.onMonthChange?.call(_yearMonths[_currentMonth]);
               }
+              rangeDateModel = [];
+              int daysInMonth = DateTime(_currentYear, _currentMonth + 2, 0).day;
+              for (int day = 1; day <= daysInMonth; day++) {
+                DateTime date = DateTime(_currentYear, _currentMonth + 1, day);
+                rangeDateModel.add(RangeDatePicker(showDates: date, isSelected: false));
+              }
+              setState(() {});
           },
           child: Icon(
             Icons.arrow_forward_ios_rounded,
