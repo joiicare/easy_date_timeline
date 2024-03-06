@@ -16,12 +16,15 @@ class TimeLineWidget extends StatefulWidget {
     required this.focusedDate,
     required this.activeDayTextColor,
     required this.activeDayColor,
+    required this.scrollController,
     this.inactiveDates,
     this.dayProps = const EasyDayProps(),
     this.locale = "en_US",
     this.timeLineProps = const EasyTimeLineProps(),
     this.onDateChange,
     this.itemBuilder,
+    this.rangeStartDate,
+    this.rangeEndDate,
     this.isDateRangePicker = false,
   })  : assert(timeLineProps.hPadding > -1,
             "Can't set timeline hPadding less than zero."),
@@ -70,6 +73,18 @@ class TimeLineWidget extends StatefulWidget {
 
   final bool isDateRangePicker;
 
+  ///scrollController
+  ScrollController scrollController;
+
+
+  ///date range start date
+  DateTime? rangeStartDate;
+
+
+  ///date range end date
+  DateTime? rangeEndDate;
+
+
   @override
   State<TimeLineWidget> createState() => _TimeLineWidgetState();
 }
@@ -83,15 +98,19 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
   double get _dayOffsetConstrains => _isLandscapeMode ? _dayHeight : _dayWidth;
   bool isSelected = false;
   List<DateTime> showDates = [];
-  late ScrollController _controller;
   DateTime? startDate;
   DateTime? endDate;
 
   @override
   void initState() {
     super.initState();
-    print("hello world ==> ");
-    _controller = ScrollController(
+    if(widget.rangeStartDate != null){
+      startDate = widget.rangeStartDate;
+    }
+    if(widget.rangeEndDate != null){
+      endDate = widget.rangeEndDate;
+    }
+    widget.scrollController = ScrollController(
       initialScrollOffset: _calculateDateOffset(widget.initialDate
           .subtract(Duration(days: widget.initialDate.day == 1 || widget.initialDate.day == 2 ? 0 : 2))),
     );
@@ -104,7 +123,7 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
 
   @override
   void dispose() {
-    _controller.dispose();
+    widget.scrollController.dispose();
     super.dispose();
   }
 
@@ -143,7 +162,7 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
         borderRadius:
             _timeLineProps.decoration?.borderRadius ?? BorderRadius.zero,
         child: ListView.separated(
-          controller: _controller,
+          controller: widget.scrollController,
           scrollDirection: Axis.horizontal,
           padding: EdgeInsets.symmetric(
             horizontal: _timeLineProps.hPadding,

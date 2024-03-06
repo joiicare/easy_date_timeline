@@ -24,6 +24,8 @@ class EasyDateTimeLine extends StatefulWidget {
     this.activeColor,
     this.firstDateMonth,
     this.locale = "en_US",
+    this.rangeStartDate,
+    this.rangeEndDate,
     required this.isShowMonth,
     required this.isDateRangePicker,
   });
@@ -62,6 +64,11 @@ class EasyDateTimeLine extends StatefulWidget {
 
   final bool isDateRangePicker;
 
+  ///start date of range date
+  final DateTime? rangeStartDate;
+
+  ///end date of range date
+  final DateTime? rangeEndDate;
   /// > **NOTE:**
   /// > When utilizing the `itemBuilder`, it is essential to provide the width of each day for the date timeline widget.
   /// >
@@ -86,6 +93,7 @@ class EasyDateTimeLine extends StatefulWidget {
 class _EasyDateTimeLineState extends State<EasyDateTimeLine> {
   late EasyMonth _easyMonth;
   late int _initialDay;
+  ScrollController scrollController = ScrollController();
 
   late ValueNotifier<DateTime?> _focusedDateListener;
 
@@ -160,6 +168,7 @@ class _EasyDateTimeLineState extends State<EasyDateTimeLine> {
                       style: _headerProps.monthStyle,
                       firstDateMonth: widget.firstDateMonth,
                       isShowMonth: widget.isShowMonth,
+                      scrollController: scrollController,
                     ),
                 ],
               ),
@@ -185,6 +194,9 @@ class _EasyDateTimeLineState extends State<EasyDateTimeLine> {
             activeDayTextColor: activeDayTextColor,
             activeDayColor: activeDayColor,
             locale: widget.locale,
+            scrollController: scrollController,
+            rangeEndDate: widget.rangeEndDate,
+            rangeStartDate: widget.rangeStartDate,
           ),
         ],
       ),

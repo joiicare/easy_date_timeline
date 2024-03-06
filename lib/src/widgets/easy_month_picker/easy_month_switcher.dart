@@ -8,7 +8,7 @@ import '../../utils/utils.dart';
 
 /// A widget that displays a button for switching to the previous or next month.
 class EasyMonthSwitcher extends StatefulWidget {
-  const EasyMonthSwitcher({
+   const EasyMonthSwitcher({
     super.key,
     required this.locale,
     required this.value,
@@ -16,6 +16,7 @@ class EasyMonthSwitcher extends StatefulWidget {
     this.firstDateMonth,
     this.style,
     required this.isShowMonth,
+    required this.scrollController,
   });
 
   /// A `String` that represents the locale code to use for formatting the month name in the switcher.
@@ -33,6 +34,9 @@ class EasyMonthSwitcher extends StatefulWidget {
   final DateTime? firstDateMonth;
 
   final bool isShowMonth;
+
+  ///scroll controller
+  final ScrollController scrollController;
 
   @override
   State<EasyMonthSwitcher> createState() => _EasyMonthSwitcherState();
@@ -80,6 +84,7 @@ class _EasyMonthSwitcherState extends State<EasyMonthSwitcher> {
                   rangeDateModel.add(RangeDatePicker(showDates: date, isSelected: false));
                 }
                 setState(() {});
+                widget.scrollController.jumpTo(0);
 
           },
           child: Icon(
@@ -122,6 +127,10 @@ class _EasyMonthSwitcherState extends State<EasyMonthSwitcher> {
                 rangeDateModel.add(RangeDatePicker(showDates: date, isSelected: false));
               }
               setState(() {});
+                  double position = widget.scrollController.position.maxScrollExtent + 300;
+                  if (DateTime.now().month != _yearMonths[_currentMonth].vale || widget.isShowMonth) {
+                    widget.scrollController.jumpTo(position);
+                  }
           },
           child: Icon(
             Icons.arrow_forward_ios_rounded,
