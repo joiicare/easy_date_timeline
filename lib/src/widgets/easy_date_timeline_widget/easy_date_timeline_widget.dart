@@ -169,6 +169,8 @@ class _EasyDateTimeLineState extends State<EasyDateTimeLine> {
                       firstDateMonth: widget.firstDateMonth,
                       isShowMonth: widget.isShowMonth,
                       scrollController: scrollController,
+                      timeLineProps: widget.timeLineProps,
+                      dayProps: widget.dayProps,
                     ),
                 ],
               ),
