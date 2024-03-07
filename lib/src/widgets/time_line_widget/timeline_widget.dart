@@ -196,11 +196,10 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
 
                 rangeDateModel.map((e) {
                   betweenDate.map((element) {
-                     print("element  ==> ${e.toJson()}");
-                     print("e between dates ==> $e");
-                     print("element.showDates between dates ==> ${e.showDates}");
-                     print("e == element.showDates ==> ${element == e.showDates}");
-                    if (element == e.showDates) {
+                      print("DateTime(element.year, element.month, element.day) ==> ${DateTime(element.year, element.month, element.day)}");
+                      print("DateTime(e.showDates!.year, e.showDates!.month, e.showDates!.day) ==> ${DateTime(e.showDates!.year, e.showDates!.month, e.showDates!.day)}");
+                      print("DateTime(element.year, element.month, element.day) == DateTime(e.showDates!.year, e.showDates!.month, e.showDates!.day) ==> ${DateTime(element.year, element.month, element.day) == DateTime(e.showDates!.year, e.showDates!.month, e.showDates!.day)}");
+                    if (DateTime(element.year, element.month, element.day) == DateTime(e.showDates!.year, e.showDates!.month, e.showDates!.day)) {
                       print("hello world");
                       e.isSelected = true;
                     }
