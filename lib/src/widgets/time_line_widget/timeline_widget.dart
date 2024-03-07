@@ -187,6 +187,17 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
           itemBuilder: (context, index) {
             final currentDate = DateTime(finalYear, initialDate.month, index + 1);
             if(widget.isDateRangePicker) {
+              if(rangeStartDate != null){
+                rangeDateModel.map((element) {
+                  if(DateTime(rangeStartDate!.year , rangeStartDate!.month , rangeStartDate!.day) == DateTime(element.showDates!.year, element.showDates!.month, element.showDates!.day)) {
+                    element.isSelected = true;
+                  }
+                }).toList();
+                startDate = widget.rangeStartDate;
+              }
+              if(rangeEndDate != null){
+                endDate = widget.rangeEndDate;
+              }
               List<DateTime> betweenDate = [];
               if (startDate != null && endDate != null) {
                 for (DateTime date = startDate!;
