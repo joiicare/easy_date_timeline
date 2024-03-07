@@ -114,6 +114,7 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
     rangeDateModel.clear();
     rangeStartDate = widget.rangeStartDate;
     rangeEndDate = widget.rangeEndDate;
+    print("its not working");
     widget.scrollController = ScrollController(
       initialScrollOffset: _calculateDateOffset(widget.initialDate
           .subtract(Duration(days: widget.initialDate.day == 1 || widget.initialDate.day == 2 ? 0 : 2))),
