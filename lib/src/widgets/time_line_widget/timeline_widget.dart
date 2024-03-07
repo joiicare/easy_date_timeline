@@ -193,10 +193,13 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
               print("betweenDate item builder ==> ${betweenDate.toString()}");
               if (betweenDate.isNotEmpty) {
                 betweenDate.map((e) {
-                  print("e between date ==> $e");
                   rangeDateModel.map((element) {
-                    // print("element  ==> ${element.toJson()}");
+                     print("element  ==> ${element.toJson()}");
+                     print("e between dates ==> $e");
+                     print("element.showDates between dates ==> ${element.showDates}");
+                     print("e == element.showDates ==> ${e == element.showDates}");
                     if (e == element.showDates) {
+                      print("hello world");
                       element.isSelected = true;
                     }
                   }).toList();
