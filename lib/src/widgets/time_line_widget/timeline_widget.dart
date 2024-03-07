@@ -106,11 +106,9 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
     super.initState();
     rangeDateModel = [];
     rangeDateModel.clear();
-    print("time_line widget rangeStartDate ==> ${widget.rangeStartDate}");
-    print("time_line widget rangeEndDate ==> ${widget.rangeEndDate}");
     if(widget.rangeStartDate != null){
       rangeDateModel.map((element) {
-        if(startDate == element.showDates) {
+        if(DateTime(widget.rangeStartDate!.year , widget.rangeStartDate!.month , widget.rangeStartDate!.day) == DateTime(element.showDates!.year, element.showDates!.month, element.showDates!.day)) {
           element.isSelected = true;
         }
       }).toList();
@@ -181,8 +179,6 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
             final currentDate = DateTime(finalYear, initialDate.month, index + 1);
             if(widget.isDateRangePicker) {
               List<DateTime> betweenDate = [];
-              print("startDate item builder ==> $startDate");
-              print("endDate item builder ==> $endDate");
               if (startDate != null && endDate != null) {
                 for (DateTime date = startDate!;
                 date.isBefore(endDate!) || date.isAtSameMomentAs(endDate!);
@@ -192,17 +188,11 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
               } else {
                 betweenDate = [];
               }
-              print("betweenDate item builder ==> ${betweenDate.toString()}");
-              print("rangeDateModel ==> ${rangeDateModel.toString()}");
               if (betweenDate.isNotEmpty) {
 
                 rangeDateModel.map((e) {
                   betweenDate.map((element) {
-                      print("DateTime(element.year, element.month, element.day) ==> ${DateTime(element.year, element.month, element.day)}");
-                      print("DateTime(e.showDates!.year, e.showDates!.month, e.showDates!.day) ==> ${DateTime(e.showDates!.year, e.showDates!.month, e.showDates!.day)}");
-                      print("DateTime(element.year, element.month, element.day) == DateTime(e.showDates!.year, e.showDates!.month, e.showDates!.day) ==> ${DateTime(element.year, element.month, element.day) == DateTime(e.showDates!.year, e.showDates!.month, e.showDates!.day)}");
                     if (DateTime(element.year, element.month, element.day) == DateTime(e.showDates!.year, e.showDates!.month, e.showDates!.day)) {
-                      print("hello world");
                       e.isSelected = true;
                     }
                   }).toList();
