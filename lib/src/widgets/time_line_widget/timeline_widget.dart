@@ -100,14 +100,20 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
   List<DateTime> showDates = [];
   DateTime? startDate;
   DateTime? endDate;
+  DateTime? rangeStartDate;
+  DateTime? rangeEndDate;
 
   @override
   void initState() {
     super.initState();
+    rangeStartDate = null;
+    rangeEndDate = null;
     startDate = null;
     endDate = null;
     rangeDateModel = [];
     rangeDateModel.clear();
+    rangeStartDate = widget.rangeStartDate;
+    rangeEndDate = widget.rangeEndDate;
     widget.scrollController = ScrollController(
       initialScrollOffset: _calculateDateOffset(widget.initialDate
           .subtract(Duration(days: widget.initialDate.day == 1 || widget.initialDate.day == 2 ? 0 : 2))),
@@ -117,15 +123,15 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
       DateTime date = DateTime(widget.initialDate.year, widget.initialDate.month, day);
       rangeDateModel.add(RangeDatePicker(showDates: date, isSelected: false));
     }
-    if(widget.rangeStartDate != null){
+    if(rangeStartDate != null){
       rangeDateModel.map((element) {
-        if(DateTime(widget.rangeStartDate!.year , widget.rangeStartDate!.month , widget.rangeStartDate!.day) == DateTime(element.showDates!.year, element.showDates!.month, element.showDates!.day)) {
+        if(DateTime(rangeStartDate!.year , rangeStartDate!.month , rangeStartDate!.day) == DateTime(element.showDates!.year, element.showDates!.month, element.showDates!.day)) {
           element.isSelected = true;
         }
       }).toList();
       startDate = widget.rangeStartDate;
     }
-    if(widget.rangeEndDate != null){
+    if(rangeEndDate != null){
       endDate = widget.rangeEndDate;
     }
   }
