@@ -104,10 +104,12 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
   @override
   void initState() {
     super.initState();
+    print("time_line widget rangeStartDate ==> ${widget.rangeStartDate}");
+    print("time_line widget rangeEndDate ==> ${widget.rangeEndDate}");
     if(widget.rangeStartDate != null){
       rangeDateModel.map((element) {
         if(startDate == element.showDates) {
-          element.isSelected = false;
+          element.isSelected = true;
         }
       }).toList();
       startDate = widget.rangeStartDate;
@@ -177,6 +179,8 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
             final currentDate = DateTime(finalYear, initialDate.month, index + 1);
             if(widget.isDateRangePicker) {
               List<DateTime> betweenDate = [];
+              print("startDate item builder ==> $startDate");
+              print("endDate item builder ==> $endDate");
               if (startDate != null && endDate != null) {
                 for (DateTime date = startDate!;
                 date.isBefore(endDate!) || date.isAtSameMomentAs(endDate!);
@@ -186,6 +190,7 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
               } else {
                 betweenDate = [];
               }
+              print("betweenDate item builder ==> ${betweenDate.toString()}");
               if (betweenDate.isNotEmpty) {
                 betweenDate.map((e) {
                   print("e between date ==> $e");
