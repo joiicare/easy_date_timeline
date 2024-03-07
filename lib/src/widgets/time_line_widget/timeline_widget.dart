@@ -104,6 +104,8 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
   @override
   void initState() {
     super.initState();
+    rangeDateModel = [];
+    rangeDateModel.clear();
     print("time_line widget rangeStartDate ==> ${widget.rangeStartDate}");
     print("time_line widget rangeEndDate ==> ${widget.rangeEndDate}");
     if(widget.rangeStartDate != null){
