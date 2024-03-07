@@ -106,6 +106,15 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
     super.initState();
     rangeDateModel = [];
     rangeDateModel.clear();
+    widget.scrollController = ScrollController(
+      initialScrollOffset: _calculateDateOffset(widget.initialDate
+          .subtract(Duration(days: widget.initialDate.day == 1 || widget.initialDate.day == 2 ? 0 : 2))),
+    );
+    int daysInMonth = DateTime(widget.initialDate.year, widget.initialDate.month + 1, 0).day;
+    for (int day = 1; day <= daysInMonth; day++) {
+      DateTime date = DateTime(widget.initialDate.year, widget.initialDate.month, day);
+      rangeDateModel.add(RangeDatePicker(showDates: date, isSelected: false));
+    }
     if(widget.rangeStartDate != null){
       rangeDateModel.map((element) {
         if(DateTime(widget.rangeStartDate!.year , widget.rangeStartDate!.month , widget.rangeStartDate!.day) == DateTime(element.showDates!.year, element.showDates!.month, element.showDates!.day)) {
@@ -116,15 +125,6 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
     }
     if(widget.rangeEndDate != null){
       endDate = widget.rangeEndDate;
-    }
-    widget.scrollController = ScrollController(
-      initialScrollOffset: _calculateDateOffset(widget.initialDate
-          .subtract(Duration(days: widget.initialDate.day == 1 || widget.initialDate.day == 2 ? 0 : 2))),
-    );
-    int daysInMonth = DateTime(widget.initialDate.year, widget.initialDate.month + 1, 0).day;
-    for (int day = 1; day <= daysInMonth; day++) {
-      DateTime date = DateTime(widget.initialDate.year, widget.initialDate.month, day);
-      rangeDateModel.add(RangeDatePicker(showDates: date, isSelected: false));
     }
   }
 
