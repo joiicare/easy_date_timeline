@@ -104,6 +104,8 @@ class _TimeLineWidgetState extends State<TimeLineWidget> {
   @override
   void initState() {
     super.initState();
+    startDate = null;
+    endDate = null;
     rangeDateModel = [];
     rangeDateModel.clear();
     widget.scrollController = ScrollController(
